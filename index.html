@@ -3,146 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Report Rempang</title>
+    <title>Sistem Pelaporan Terpadu Rempang - Professional</title>
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 15px; }
-        .card { max-width: 650px; background: white; padding: 25px; border-radius: 15px; margin: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .ai-box { background: #e8f4fd; border: 2px dashed #3498db; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; }
-        .section { background: #f9f9f9; border-left: 5px solid #2980b9; padding: 15px; margin-top: 15px; border-radius: 8px; }
-        label { display: block; margin-top: 12px; font-weight: bold; font-size: 13px; }
-        input, select, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
-        .btn-ai { background: #3498db; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px; }
-        .btn-submit { width: 100%; padding: 15px; background: #27ae60; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; margin-top: 30px; cursor: pointer; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f7f6; padding: 20px; }
+        .container { max-width: 800px; background: white; padding: 30px; border-radius: 15px; margin: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        .section { background: #fcfcfc; border: 1px solid #eee; padding: 20px; margin-top: 20px; border-radius: 10px; }
+        .section-title { font-weight: bold; color: #2980b9; text-transform: uppercase; margin-bottom: 15px; display: flex; align-items: center; }
+        label { display: block; margin-top: 15px; font-weight: bold; font-size: 13px; color: #34495e; }
+        input, select, textarea { width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .flex { display: flex; gap: 15px; }
+        .ai-btn { background: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        .submit-btn { width: 100%; padding: 20px; background: #27ae60; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; margin-top: 40px; cursor: pointer; }
+        .upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+        .upload-box { border: 2px dashed #ccc; padding: 15px; border-radius: 10px; text-align: center; background: #fff; }
         .hidden { display: none; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2 style="text-align:center;">LAPORAN HARIAN (SMART AI)</h2>
 
-        <div class="ai-box">
-            <div style="font-weight:bold; color:#2980b9;">UPLOAD FOTO TULISAN / CHAT / REKAMAN</div>
-            <p style="font-size:11px;">AI akan otomatis mengisi form di bawah</p>
-            <input type="file" id="aiFile" accept="image/*,audio/*">
-            <button type="button" class="btn-ai" onclick="analyzeAI()">PROSES PAKAI AI</button>
-            <div id="aiStatus" style="font-size:12px; margin-top:5px; color:#e67e22;"></div>
+<div class="container">
+    <h2>LAPORAN HARIAN OPERASIONAL</h2>
+
+    <form id="mainForm">
+        <div class="section">
+            <div class="section-title">I. Identitas Personil</div>
+            <div class="flex">
+                <div style="flex:1;">
+                    <label>Unit / Korwil</label>
+                    <select id="unit" onchange="toggleLahanSection()" required>
+                        <option value="">-- Pilih --</option>
+                        <option value="Korwil A">Korwil A</option><option value="Korwil B">Korwil B</option>
+                        <option value="Korwil C">Korwil C</option><option value="Korwil D">Korwil D</option>
+                        <option value="Korwil E">Korwil E</option><option value="Korwil F">Korwil F</option>
+                        <option value="Korwil G">Korwil G</option><option value="Korwil H">Korwil H</option>
+                        <option value="Korwil I">Korwil I</option><option value="Korwil J">Korwil J</option>
+                        <option value="Korwil K">Korwil K</option><option value="Tim Advance">Tim Advance</option>
+                        <option value="Tim Ketapang">Tim Ketapang</option><option value="Tim Kuda">Tim Kuda</option>
+                        <option value="DENMA">DENMA</option><option value="Sekwan">Sekwan</option>
+                    </select>
+                </div>
+                <div style="flex:1;">
+                    <label>Nama Pelapor</label>
+                    <input type="text" id="nama" required>
+                </div>
+            </div>
         </div>
 
-        <form id="dailyForm">
-            <label>Pilih Korwil / Tim</label>
-            <select id="unit" onchange="toggleLahan()" required>
-                <option value="">-- Pilih --</option>
-                <option value="Korwil A">Korwil A</option><option value="Korwil B">Korwil B</option>
-                <option value="Korwil C">Korwil C</option><option value="Korwil D">Korwil D</option>
-                <option value="Korwil E">Korwil E</option><option value="Korwil F">Korwil F</option>
-                <option value="Korwil G">Korwil G</option><option value="Korwil H">Korwil H</option>
-                <option value="Korwil I">Korwil I</option><option value="Korwil J">Korwil J</option>
-                <option value="Korwil K">Korwil K</option><option value="Tim Advance">Tim Advance</option>
-                <option value="Tim Ketapang">Tim Ketapang</option><option value="Tim Kuda">Tim Kuda</option>
-                <option value="DENMA">DENMA</option><option value="Sekwan">Sekwan</option>
+        <div class="section">
+            <div class="section-title">II. Hasil Kerja & Analisis (Hybrid)</div>
+            <label>Kegiatan Utama</label>
+            <input type="text" id="kegiatan" required>
+            <div class="flex">
+                <div style="flex:1;"><label>Target (Angka)</label><input type="number" id="target_q" required></div>
+                <div style="flex:1;"><label>Hasil (Angka)</label><input type="number" id="hasil_q" required></div>
+            </div>
+            <label>Apakah target tercapai?</label>
+            <select id="tercapai" required>
+                <option value="YA">YA, Tercapai</option>
+                <option value="TIDAK">TIDAK Tercapai</option>
             </select>
-            <label>Nama Anda</label>
-            <input type="text" id="nama" required>
+            <label>Penjelasan Hasil (Alasan Ya/Tidak)</label>
+            <textarea id="penjelasan" rows="2" placeholder="Jelaskan secara rinci kondisi di lapangan..."></textarea>
+            <label>Kendala Teknis / Hambatan</label>
+            <input type="text" id="kendala" placeholder="Misal: Hujan, Provokasi oknum, Alat rusak">
+        </div>
 
-            <div class="section">
-                <label>Apa yang dikerjakan hari ini?</label>
-                <input type="text" id="kegiatan" required>
-                
-                <div style="display:flex; gap:10px;">
-                    <div style="flex:1;"><label>Target (Angka)</label><input type="number" id="target_q" required></div>
-                    <div style="flex:1;"><label>Hasil (Angka)</label><input type="number" id="aktual_q" required></div>
-                </div>
-                
-                <label>Apakah hasil mencapai target?</label>
-                <select id="tercapai" required>
-                    <option value="YA">YA, Tercapai</option>
-                    <option value="TIDAK">TIDAK Tercapai</option>
-                </select>
-                <label>Penjelasan (Kenapa Ya / Kenapa Tidak?)</label>
-                <textarea id="penjelasan_hasil" rows="2" placeholder="Ceritakan alasannya dengan bahasa santai..."></textarea>
+        <div class="section">
+            <div class="section-title">III. Data Tokoh & Stakeholder</div>
+            <textarea id="tokoh" rows="4" placeholder="Nama Tokoh (Kategori) | Sikap | Level Pengaruh | Hasil Pembicaraan"></textarea>
+            <p style="font-size:11px; color:#7f8c8d;">*Gunakan tombol AI di bawah untuk mengisi otomatis dari foto catatan/suara.</p>
+        </div>
+
+        <div id="lahanSection" class="section hidden">
+            <div class="section-title" style="color: #e67e22;">IV. Detail Teknis Lahan (SIZ / PLTS)</div>
+            <label>Zonasi</label>
+            <select id="zonasi">
+                <option value="N/A">Bukan Area Proyek</option>
+                <option value="SIZ">SIZ (Industrial)</option>
+                <option value="PLTS RES">PLTS RES</option>
+                <option value="PLTS SAE">PLTS SAE</option>
+            </select>
+            <label>Koordinat GPS</label>
+            <input type="text" id="koordinat" placeholder="Contoh: 0.8923, 104.2341">
+            <label>Status Lahan</label>
+            <select id="status_lahan">
+                <option value="Mapping">Mapping</option>
+                <option value="Nego Harga">Nego Harga</option>
+                <option value="Clear">Clear</option>
+            </select>
+            <label>Isi Lahan (Aset & Tanam Tumbuh)</label>
+            <textarea id="aset" rows="2" placeholder="Contoh: 1 Rumah, 50 Pohon Durian..."></textarea>
+        </div>
+
+        <div class="upload-grid">
+            <div class="upload-box">
+                <div style="font-weight:bold; font-size:12px;">KOLOM 1: DOKUMENTASI</div>
+                <p style="font-size:10px;">(Foto kegiatan, suasana posko, dll)</p>
+                <input type="file" id="fileDoc">
             </div>
-
-            <div class="section">
-                <div style="font-weight:bold; color:#2980b9;">TOKOH & WARGA</div>
-                <div id="tokohContainer">
-                    <textarea id="semua_tokoh" rows="4" placeholder="AI akan mengisi ini otomatis, atau tulis manual..."></textarea>
-                </div>
+            <div class="upload-box" style="border-color: #3498db;">
+                <div style="font-weight:bold; font-size:12px; color: #3498db;">KOLOM 2: SUMBER DATA AI</div>
+                <p style="font-size:10px;">(Foto Tulis Tangan / Audio / Screenshot WA)</p>
+                <input type="file" id="fileAI" accept="image/*,audio/*">
+                <button type="button" class="ai-btn" onclick="runAIAnalysis()">BACA DATA (AI)</button>
             </div>
+        </div>
+        <p id="aiStatus" style="text-align:center; font-size:12px; color:#e67e22;"></p>
 
-            <div id="lahanSection" class="section hidden">
-                <div style="font-weight:bold; color:#e67e22;">KHUSUS LAHAN (SIZ / PLTS)</div>
-                <label>Koordinat GPS</label>
-                <input type="text" id="koordinat">
-                <label>Isi Lahan (Bangunan & Pohon)</label>
-                <textarea id="aset" rows="2"></textarea>
-            </div>
+        <div class="section">
+            <div class="section-title">V. Rencana & Target Esok Hari</div>
+            <input type="text" id="next_action" placeholder="Langkah nyata besok">
+            <input type="number" id="next_target" placeholder="Target angka besok">
+        </div>
 
-            <button type="submit" id="btn" class="btn-submit">KIRIM LAPORAN SEKARANG</button>
-        </form>
-    </div>
+        <button type="submit" id="submitBtn" class="submit-btn">KIRIM LAPORAN FINAL</button>
+    </form>
+</div>
 
-    <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbw7S9kUDVGdvgtOY9qspoZRtzurdalSnfXkPlUuHIJB7wrMjigpBteEfOm9XoIqwOMj/exec';
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbw7S9kUDVGdvgtOY9qspoZRtzurdalSnfXkPlUuHIJB7wrMjigpBteEfOm9XoIqwOMj/exec';
 
-        async function analyzeAI() {
-            const fileInput = document.getElementById('aiFile');
-            if (fileInput.files.length === 0) return alert('Pilih file dulu!');
+    // 1. Logika Sembunyi Lahan
+    function toggleLahanSection() {
+        const unit = document.getElementById('unit').value;
+        const target = ["Korwil A", "Korwil B", "Korwil C", "Korwil D", "Korwil F", "Korwil G", "Korwil H", "Korwil I"];
+        document.getElementById('lahanSection').className = target.includes(unit) ? "section" : "section hidden";
+    }
+
+    // 2. Logika Smart AI Analysis (Penyempurna)
+    async function runAIAnalysis() {
+        const fileInput = document.getElementById('fileAI');
+        if (fileInput.files.length === 0) return alert("Pilih file sumber data di Kolom 2!");
+        
+        document.getElementById('aiStatus').innerText = "AI sedang membaca data Anda...";
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        
+        reader.onload = async function() {
+            const base64 = reader.result.split(',')[1];
+            const response = await fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'analyze_ai',
+                    mimeType: file.type,
+                    base64: base64
+                })
+            });
+            const res = await response.json();
             
-            document.getElementById('aiStatus').innerHTML = 'Sabar, AI lagi membaca data...';
-            const file = fileInput.files[0];
-            const reader = new FileReader();
+            // Auto-fill field (Penyempurna)
+            if(res.kegiatan) document.getElementById('kegiatan').value = res.kegiatan;
+            if(res.target_q) document.getElementById('target_q').value = res.target_q;
+            if(res.hasil_q) document.getElementById('hasil_q').value = res.hasil_q;
+            if(res.tercapai) document.getElementById('tercapai').value = res.tercapai;
+            if(res.tokoh) document.getElementById('tokoh').value = res.tokoh;
+            if(res.koordinat) document.getElementById('koordinat').value = res.koordinat;
+            if(res.aset) document.getElementById('aset').value = res.aset;
             
-            reader.onload = async function() {
-                const base64 = reader.result.split(',')[1];
-                const res = await fetch(scriptURL, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        action: 'analyze_ai',
-                        mimeType: file.type,
-                        base64: base64
-                    })
-                });
-                const result = await res.json();
-                
-                // AUTO-FILL DATA KE FORM
-                if(result.kegiatan) document.getElementById('kegiatan').value = result.kegiatan;
-                if(result.target_q) document.getElementById('target_q').value = result.target_q;
-                if(result.hasil_q) document.getElementById('aktual_q').value = result.hasil_q;
-                if(result.tokoh) document.getElementById('semua_tokoh').value = result.tokoh;
-                if(result.koordinat) document.getElementById('koordinat').value = result.koordinat;
-                if(result.aset) document.getElementById('aset').value = result.aset;
-                
-                document.getElementById('aiStatus').innerHTML = 'Selesai! Silakan cek isian di bawah.';
-            };
-            reader.readAsDataURL(file);
-        }
+            document.getElementById('aiStatus').innerText = "AI selesai membaca. Silakan periksa & lengkapi isian.";
+        };
+        reader.readAsDataURL(file);
+    }
 
-        function toggleLahan() {
-            const unit = document.getElementById('unit').value;
-            const sec = document.getElementById('lahanSection');
-            const target = ["Korwil A", "Korwil B", "Korwil C", "Korwil D", "Korwil F", "Korwil G", "Korwil H", "Korwil I"];
-            sec.className = target.includes(unit) ? "section" : "section hidden";
-        }
+    // 3. Submit Final
+    document.getElementById('mainForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        document.getElementById('submitBtn').innerText = "Mengirim Laporan...";
+        
+        const data = {
+            action: 'submit_final',
+            unit: document.getElementById('unit').value,
+            nama: document.getElementById('nama').value,
+            kegiatan: document.getElementById('kegiatan').value,
+            target_q: document.getElementById('target_q').value,
+            hasil_q: document.getElementById('hasil_q').value,
+            gap: document.getElementById('target_q').value - document.getElementById('hasil_q').value,
+            tercapai: document.getElementById('tercapai').value,
+            penjelasan: document.getElementById('penjelasan').value,
+            kendala: document.getElementById('kendala').value,
+            tokoh: document.getElementById('tokoh').value,
+            zonasi: document.getElementById('zonasi').value,
+            koordinat: document.getElementById('koordinat').value,
+            status_lahan: document.getElementById('status_lahan').value,
+            aset: document.getElementById('aset').value,
+            next_action: document.getElementById('next_action').value,
+            next_target: document.getElementById('next_target').value,
+            link_doc: "Terlampir di Drive", 
+            link_ai: "Teranalisis AI"
+        };
 
-        document.getElementById('dailyForm').addEventListener('submit', e => {
-            e.preventDefault();
-            document.getElementById('btn').innerHTML = 'Mengirim...';
-            const data = {
-                unit: document.getElementById('unit').value,
-                nama: document.getElementById('nama').value,
-                kegiatan: document.getElementById('kegiatan').value,
-                target_q: document.getElementById('target_q').value,
-                aktual_q: document.getElementById('aktual_q').value,
-                gap: document.getElementById('target_q').value - document.getElementById('aktual_q').value,
-                tercapai: document.getElementById('tercapai').value,
-                penjelasan_hasil: document.getElementById('penjelasan_hasil').value,
-                semua_tokoh: document.getElementById('semua_tokoh').value,
-                koordinat: document.getElementById('koordinat').value,
-                aset: document.getElementById('aset').value
-            };
-            fetch(scriptURL, { method: 'POST', body: JSON.stringify(data) })
-            .then(res => { alert('Laporan Berhasil!'); location.reload(); });
-        });
-    </script>
+        await fetch(scriptURL, { method: 'POST', body: JSON.stringify(data) });
+        alert("Laporan Berhasil Disimpan!");
+        location.reload();
+    });
+</script>
 </body>
 </html>
