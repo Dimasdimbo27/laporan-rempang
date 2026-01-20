@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Pelaporan Terpadu Rempang</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f4f7; padding: 15px; }
+        .card { max-width: 650px; background: white; padding: 30px; border-radius: 15px; margin: auto; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        .section-header { background: #34495e; color: white; padding: 10px 15px; border-radius: 6px; margin-top: 25px; font-size: 14px; font-weight: bold; }
+        label { display: block; margin-top: 15px; font-weight: 600; color: #2c3e50; }
+        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #d1d8e0; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 18px; background: #27ae60; color: white; border: none; border-radius: 10px; font-size: 18px; margin-top: 35px; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #219150; }
+        .hint { font-size: 12px; color: #7f8c8d; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2 style="text-align:center; color:#2980b9;">FORM PELAPORAN TERPADU</h2>
+        <p style="text-align:center;" class="hint">Input Data Rutin, Tokoh, & Teknis Spasial Rempang Eco City</p>
+        
+        <form id="rempangForm">
+            <label>Unit / Bagian / Korwil</label>
+            <select id="unit" required>
+                <option value="">-- Pilih Unit --</option>
+                <option value="Korwil A">Korwil A</option><option value="Korwil B">Korwil B</option>
+                <option value="Korwil C">Korwil C</option><option value="Korwil D">Korwil D</option>
+                <option value="Korwil E">Korwil E</option><option value="Korwil F">Korwil F</option>
+                <option value="Korwil G">Korwil G</option><option value="Korwil H">Korwil H</option>
+                <option value="Korwil I">Korwil I</option><option value="Korwil J">Korwil J</option>
+                <option value="Korwil K">Korwil K</option><option value="Tim Advance">Tim Advance</option>
+                <option value="Tim Ketapang">Tim Ketapang</option><option value="Tim Kuda">Tim Kuda</option>
+                <option value="DENMA">DENMA</option><option value="Sekwan">Sekwan</option>
+            </select>
+            <label>Nama Personil Pelapor</label>
+            <input type="text" id="nama" required>
+
+            <div class="section-header">MATRIKS KUANTITATIF & REASONING</div>
+            <div style="display:flex; gap:15px;">
+                <div style="flex:1;"><label>Target (Q)</label><input type="number" id="target_q" required></div>
+                <div style="flex:1;"><label>Aktual (Q)</label><input type="number" id="aktual_q" required></div>
+            </div>
+            <label>Why? (Analisis Penyebab Gap / Dasar Tindakan)</label>
+            <textarea id="why" rows="2" placeholder="Kenapa target tidak tercapai atau kenapa kegiatan diulang?"></textarea>
+
+            <div class="section-header">PROFILING TOKOH & PENGARUH</div>
+            <label>Detail Tokoh & Alasan Strategis</label>
+            <textarea id="profil_tokoh" rows="4" placeholder="Nama Tokoh, Level Pengaruh (1-5), Sikap, & Alasan Engagement strategis..."></textarea>
+
+            <div class="section-header">DETAIL TEKNIS LAHAN (SIZ / PLTS)</div>
+            <label>Zonasi Proyek</label>
+            <select id="zonasi">
+                <option value="Non-Project">Non-Project / Umum</option>
+                <option value="SIZ">SIZ (Strategic Industrial Zone)</option>
+                <option value="PLTS RES">PLTS RES</option>
+                <option value="PLTS SAE">PLTS SAE</option>
+            </select>
+            <label>Titik Koordinat (GPS)</label>
+            <input type="text" id="koordinat" placeholder="Contoh: 0.8923, 104.2341">
+            <label>Isi Lahan (Aset Bangunan & Tanam Tumbuh)</label>
+            <textarea id="aset" rows="3" placeholder="Contoh: 2 Rumah kayu, 100 pohon durian, status lahan..."></textarea>
+
+            <div class="section-header">MONITORING & TARGET DEPAN</div>
+            <label>Kendala Lapangan</label>
+            <input type="text" id="kendala">
+            <label>Rencana Tindak Lanjut (Next Action)</label>
+            <input type="text" id="next_action">
+            <label>Target Angka Minggu Depan</label>
+            <input type="number" id="next_target">
+
+            <button type="submit" id="submitBtn">KIRIM LAPORAN SEKARANG</button>
+        </form>
+    </div>
+
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbw7S9kUDVGdvgtOY9qspoZRtzurdalSnfXkPlUuHIJB7wrMjigpBteEfOm9XoIqwOMj/exec';
+        const form = document.getElementById('rempangForm');
+        
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('submitBtn').innerHTML = 'Sedang Mengirim...';
+            
+            const data = {
+                unit: document.getElementById('unit').value,
+                nama: document.getElementById('nama').value,
+                target_q: document.getElementById('target_q').value,
+                aktual_q: document.getElementById('aktual_q').value,
+                gap: document.getElementById('target_q').value - document.getElementById('aktual_q').value,
+                why: document.getElementById('why').value,
+                profil_tokoh: document.getElementById('profil_tokoh').value,
+                zonasi: document.getElementById('zonasi').value,
+                koordinat: document.getElementById('koordinat').value,
+                aset: document.getElementById('aset').value,
+                kendala: document.getElementById('kendala').value,
+                next_action: document.getElementById('next_action').value,
+                next_target: document.getElementById('next_target').value
+            };
+
+            fetch(scriptURL, { method: 'POST', body: JSON.stringify(data) })
+            .then(res => { 
+                alert('Laporan Terpadu Berhasil Terkirim!'); 
+                form.reset(); 
+                document.getElementById('submitBtn').disabled = false;
+                document.getElementById('submitBtn').innerHTML = 'KIRIM LAPORAN SEKARANG';
+            })
+            .catch(err => {
+                alert('Gagal mengirim laporan. Cek koneksi atau URL Script Anda.');
+                document.getElementById('submitBtn').disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>
