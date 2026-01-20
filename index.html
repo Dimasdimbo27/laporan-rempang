@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Laporan Lapangan Rempang</title>
+    <title>Form Laporan Harian Rempang</title>
     <style>
-        body { font-family: 'Arial', sans-serif; background: #f0f2f5; padding: 15px; color: #333; }
-        .container { max-width: 600px; background: white; padding: 20px; border-radius: 15px; margin: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #2980b9; margin-bottom: 20px; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 15px; }
+        .form-card { max-width: 600px; background: white; padding: 25px; border-radius: 12px; margin: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
         .section { background: #f9f9f9; border-left: 5px solid #3498db; padding: 15px; margin-top: 15px; border-radius: 8px; }
-        .title { font-weight: bold; color: #2c3e50; font-size: 14px; text-transform: uppercase; margin-bottom: 10px; }
+        .section-title { font-weight: bold; color: #2980b9; margin-bottom: 10px; font-size: 13px; text-transform: uppercase; }
         label { display: block; margin-top: 12px; font-weight: bold; font-size: 13px; }
-        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
-        .flex { display: flex; gap: 10px; }
-        button { width: 100%; padding: 16px; background: #27ae60; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; margin-top: 25px; cursor: pointer; }
+        input, select, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        .tokoh-entry { background: #fff; padding: 10px; border: 1px solid #ddd; border-radius: 8px; margin-top: 10px; position: relative; }
+        .btn-add { background: #3498db; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; font-weight: bold; width: 100%; }
+        .btn-submit { width: 100%; padding: 15px; background: #27ae60; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; margin-top: 30px; cursor: pointer; }
         .hidden { display: none; }
-        .hint { font-size: 12px; color: #7f8c8d; font-style: italic; }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="form-card">
         <h2>LAPORAN HARIAN KERJA</h2>
-        <form id="laporanForm">
-            <label>Pilih Korwil / Tim Anda</label>
+        <form id="dailyForm">
+            <label>Pilih Korwil / Tim</label>
             <select id="unit" onchange="toggleLahan()" required>
                 <option value="">-- Klik untuk Memilih --</option>
                 <option value="Korwil A">Korwil A</option><option value="Korwil B">Korwil B</option>
@@ -35,157 +35,145 @@
                 <option value="DENMA">DENMA</option><option value="Sekwan">Sekwan</option>
             </select>
             <label>Nama Anda</label>
-            <input type="text" id="nama" placeholder="Tulis nama lengkap" required>
+            <input type="text" id="nama" placeholder="Tulis nama lengkap Anda" required>
 
             <div class="section">
-                <div class="title">Hasil Kerja Hari Ini</div>
-                <label>Apa yang Anda kerjakan?</label>
-                <input type="text" id="kegiatan" placeholder="Contoh: Komsos Warga / Bersihkan Lahan" required>
+                <div class="section-title">Hasil Kerja Hari Ini</div>
+                <label>Apa kegiatan utama Anda hari ini?</label>
+                <input type="text" id="kegiatan" placeholder="Contoh: Komsos Warga, Mapping Lahan" required>
                 
-                <div class="flex">
-                    <div style="flex:1;"><label>Target (Angka)</label><input type="number" id="target_q" placeholder="Contoh: 10" required></div>
-                    <div style="flex:1;"><label>Hasil (Angka)</label><input type="number" id="aktual_q" placeholder="Contoh: 5" required></div>
+                <div style="display:flex; gap:10px;">
+                    <div style="flex:1;"><label>Target (Berapa?)</label><input type="number" id="target_q" required></div>
+                    <div style="flex:1;"><label>Hasil (Berapa?)</label><input type="number" id="aktual_q" required></div>
                 </div>
                 
-                <label>Kenapa hasil tidak sesuai target?</label>
-                <select id="why_select">
+                <label>Kenapa hasil tidak mencapai target?</label>
+                <select id="why">
                     <option value="Tercapai">Hasil Sesuai Target (100%)</option>
-                    <option value="Warga Melaut / Tidak di Rumah">Warga Melaut / Tidak di Rumah</option>
-                    <option value="Kendala Hujan / Cuaca">Kendala Hujan / Cuaca</option>
-                    <option value="Alat Rusak / Bahan Kurang">Alat Rusak / Bahan Kurang</option>
-                    <option value="Ada Gangguan / Oknum">Ada Gangguan / Oknum Kontra</option>
+                    <option value="Cuaca Buruk / Hujan">Cuaca Buruk / Hujan</option>
+                    <option value="Warga Sedang Melaut">Warga Sedang Melaut</option>
+                    <option value="Alat Rusak / Kurang Bahan">Alat Rusak / Kurang Bahan</option>
+                    <option value="Dihambat Oknum / Warga">Dihambat Oknum / Warga</option>
                     <option value="Lainnya">Lainnya (Tulis di bawah)</option>
                 </select>
-                <textarea id="why_detail" rows="2" placeholder="Jelaskan alasan rincinya kenapa target tidak tercapai..."></textarea>
-                
-                <label>Ada kendala teknis lain? (Opsional)</label>
-                <input type="text" id="kendala" placeholder="Contoh: Jalan rusak, ban bocor">
+                <textarea id="why_detail" rows="2" placeholder="Jelaskan alasan rincinya..."></textarea>
             </div>
 
             <div class="section">
-                <div class="title">Data Tokoh Masyarakat</div>
-                <label>Nama Tokoh yang Ditemui</label>
-                <input type="text" id="tokoh_nama" placeholder="Nama Tokoh">
-                
-                <label>Sikap Tokoh Terhadap Kita</label>
-                <select id="tokoh_sikap">
-                    <option value="N/A">-- Pilih Sikap --</option>
-                    <option value="Setuju / Mendukung (Pro)">Setuju / Mendukung (Pro)</option>
-                    <option value="Masih Ragu-ragu (Abu-abu)">Masih Ragu-ragu (Abu-abu)</option>
-                    <option value="Menolak (Kontra)">Menolak (Kontra)</option>
-                    <option value="Setuju Tapi Ada Syarat">Setuju Tapi Ada Syarat</option>
-                </select>
+                <div class="section-title">Tokoh Masyarakat / Warga yang Ditemui</div>
+                <div id="tokohContainer">
+                    <div class="tokoh-entry">
+                        <label>Nama Tokoh/Warga</label>
+                        <input type="text" class="t-nama" placeholder="Tulis nama">
+                        
+                        <label>Kategori Tokoh</label>
+                        <select class="t-kat">
+                            <option value="Tokoh Masyarakat">Tokoh Masyarakat</option>
+                            <option value="Tokoh Agama">Tokoh Agama</option>
+                            <option value="Tokoh Pemuda">Tokoh Pemuda</option>
+                            <option value="LSM">LSM / Pihak Luar</option>
+                            <option value="Warga Biasa">Warga Biasa</option>
+                        </select>
 
-                <label>Seberapa Kuat Pengaruh Tokoh Ini?</label>
-                <select id="tokoh_level">
-                    <option value="0">-- Pilih Level Pengaruh --</option>
-                    <option value="Level 1">Level 1 (Hanya didengar keluarga sendiri)</option>
-                    <option value="Level 2 (RT)">Level 2 (Didengar orang se-RT)</option>
-                    <option value="Level 3 (Kampung)">Level 3 (Tokoh di satu kampung/RW)</option>
-                    <option value="Level 4 (Desa)">Level 4 (Tokoh besar tingkat Desa/Lurah)</option>
-                    <option value="Level 5 (Sangat Kuat)">Level 5 (Tokoh besar, penguasa wilayah)</option>
-                </select>
-                
-                <label>Kenapa Komsos Diulang / Apa Hasil Bicaranya?</label>
-                <textarea id="tokoh_reasoning" rows="3" placeholder="Ceritakan kenapa Anda menemui dia lagi dan apa hasilnya..."></textarea>
+                        <label>Sikapnya Terhadap Proyek</label>
+                        <select class="t-sikap">
+                            <option value="Mendukung (Pro)">Mendukung (Pro)</option>
+                            <option value="Ragu / Abu-abu">Ragu / Abu-abu</option>
+                            <option value="Menolak (Kontra)">Menolak (Kontra)</option>
+                        </select>
+
+                        <label>Tingkat Pengaruh (Level)</label>
+                        <select class="t-lvl">
+                            <option value="Level 1">Level 1 (Keluarga saja)</option>
+                            <option value="Level 2">Level 2 (Satu RT)</option>
+                            <option value="Level 3">Level 3 (Satu Kampung/RW)</option>
+                            <option value="Level 4">Level 4 (Satu Desa/Kelurahan)</option>
+                            <option value="Level 5">Level 5 (Tokoh Besar)</option>
+                        </select>
+
+                        <label>Hasil Pembicaraan / Reasoning</label>
+                        <textarea class="t-hasil" rows="2" placeholder="Ceritakan hasil bincang-bincang..."></textarea>
+                    </div>
+                </div>
+                <button type="button" class="btn-add" onclick="tambahTokoh()">+ Tambah Tokoh/Warga Lain</button>
             </div>
 
             <div id="lahanSection" class="section hidden">
-                <div class="title" style="color: #e67e22;">Detail Lahan (SIZ / PLTS)</div>
+                <div class="section-title" style="color: #e67e22;">Detail Lahan (SIZ / PLTS)</div>
                 <label>Nama Proyek</label>
                 <select id="zonasi">
-                    <option value="Bukan Area Proyek">Bukan Area Proyek</option>
-                    <option value="SIZ (Industrial Zone)">SIZ (Industrial Zone)</option>
+                    <option value="Bukan Proyek">Bukan Proyek</option>
+                    <option value="SIZ">SIZ (Industrial Zone)</option>
                     <option value="PLTS RES">PLTS RES</option>
                     <option value="PLTS SAE">PLTS SAE</option>
                 </select>
-                
-                <label>Titik Koordinat (Lihat di WA/Maps)</label>
+                <label>Titik Koordinat (Cek di Maps/WA)</label>
                 <input type="text" id="koordinat" placeholder="Contoh: 0.8923, 104.2341">
-                
-                <label>Status Lahan Saat Ini</label>
-                <select id="lahan_status">
-                    <option value="Pemetaan">Sedang Dipetakan (Mapping)</option>
-                    <option value="Nego Harga">Sedang Nego Harga</option>
-                    <option value="Clear">Sudah Bersih / Clear</option>
-                    <option value="Masih Sengketa">Masih Sengketa / Konflik</option>
-                </select>
-
-                <label>Apa saja isinya di lahan tersebut? (Bangunan & Tanaman)</label>
-                <textarea id="aset" rows="3" placeholder="Contoh: 1 Rumah kayu, 50 pohon durian, 20 pohon petai..."></textarea>
+                <label>Isi di Lahan (Bangunan & Tanaman)</label>
+                <textarea id="aset" rows="2" placeholder="Contoh: 1 Rumah kayu, 50 pohon durian..."></textarea>
             </div>
 
             <div class="section">
-                <div class="title">Rencana Berikutnya</div>
-                <label>Apa yang akan dilakukan minggu depan?</label>
-                <input type="text" id="next_action" placeholder="Langkah nyata minggu depan">
-                <label>Target Angka Minggu Depan</label>
-                <input type="number" id="next_target" placeholder="Contoh: Target 15 KK">
+                <div class="section-title">Rencana Kerja Besok</div>
+                <label>Langkah apa yang akan diambil besok?</label>
+                <input type="text" id="next_action" placeholder="Contoh: Lanjut komsos ke Pak RT 02">
+                <label>Target Angka Besok</label>
+                <input type="number" id="next_target" placeholder="Contoh: 10 KK">
             </div>
 
-            <button type="submit" id="btn">KIRIM LAPORAN SEKARANG</button>
+            <button type="submit" id="btn" class="btn-submit">KIRIM LAPORAN HARIAN</button>
         </form>
     </div>
 
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbw7S9kUDVGdvgtOY9qspoZRtzurdalSnfXkPlUuHIJB7wrMjigpBteEfOm9XoIqwOMj/exec';
         
-        function toggleLahan() {
-            const unit = document.getElementById('unit').value;
-            const section = document.getElementById('lahanSection');
-            // Hanya muncul untuk Korwil A, B, C, D, F, G, H, I
-            const targetUnit = ["Korwil A", "Korwil B", "Korwil C", "Korwil D", "Korwil F", "Korwil G", "Korwil H", "Korwil I"];
-            
-            if (targetUnit.includes(unit)) {
-                section.classList.remove('hidden');
-            } else {
-                section.classList.add('hidden');
-            }
+        function tambahTokoh() {
+            const container = document.getElementById('tokohContainer');
+            const entry = document.querySelector('.tokoh-entry').cloneNode(true);
+            entry.querySelectorAll('input, textarea').forEach(el => el.value = '');
+            container.appendChild(entry);
         }
 
-        const form = document.getElementById('laporanForm');
+        function toggleLahan() {
+            const unit = document.getElementById('unit').value;
+            const sec = document.getElementById('lahanSection');
+            const target = ["Korwil A", "Korwil B", "Korwil C", "Korwil D", "Korwil F", "Korwil G", "Korwil H", "Korwil I"];
+            sec.className = target.includes(unit) ? "section" : "section hidden";
+        }
+
+        const form = document.getElementById('dailyForm');
         form.addEventListener('submit', e => {
             e.preventDefault();
             document.getElementById('btn').innerHTML = 'Sedang Mengirim...';
-            document.getElementById('btn').disabled = true;
-            
-            const target = document.getElementById('target_q').value;
-            const aktual = document.getElementById('aktual_q').value;
+
+            let allTokoh = "";
+            document.querySelectorAll('.tokoh-entry').forEach((el, i) => {
+                const nama = el.querySelector('.t-nama').value;
+                if(nama) {
+                    allTokoh += `[Tokoh ${i+1}] Nama: ${nama} (${el.querySelector('.t-kat').value}) | Sikap: ${el.querySelector('.t-sikap').value} | Lvl: ${el.querySelector('.t-lvl').value} | Hasil: ${el.querySelector('.t-hasil').value}\n`;
+                }
+            });
 
             const data = {
                 unit: document.getElementById('unit').value,
                 nama: document.getElementById('nama').value,
                 kegiatan: document.getElementById('kegiatan').value,
-                target_q: target,
-                aktual_q: aktual,
-                gap: target - aktual,
-                why: document.getElementById('why_select').value + " | Detail: " + document.getElementById('why_detail').value,
-                kendala: document.getElementById('kendala').value,
-                tokoh_nama: document.getElementById('tokoh_nama').value,
-                tokoh_sikap: document.getElementById('tokoh_sikap').value,
-                tokoh_level: document.getElementById('tokoh_level').value,
-                tokoh_reasoning: document.getElementById('tokoh_reasoning').value,
+                target_q: document.getElementById('target_q').value,
+                aktual_q: document.getElementById('aktual_q').value,
+                gap: document.getElementById('target_q').value - document.getElementById('aktual_q').value,
+                why: document.getElementById('why').value + " | " + document.getElementById('why_detail').value,
+                semua_tokoh: allTokoh,
                 zonasi: document.getElementById('zonasi').value,
                 koordinat: document.getElementById('koordinat').value,
-                lahan_status: document.getElementById('lahan_status').value,
                 aset: document.getElementById('aset').value,
                 next_action: document.getElementById('next_action').value,
                 next_target: document.getElementById('next_target').value
             };
 
             fetch(scriptURL, { method: 'POST', body: JSON.stringify(data) })
-            .then(res => { 
-                alert('Laporan Berhasil Terkirim!'); 
-                form.reset(); 
-                toggleLahan();
-                document.getElementById('btn').innerHTML = 'KIRIM LAPORAN SEKARANG';
-                document.getElementById('btn').disabled = false;
-            })
-            .catch(err => {
-                alert('Gagal Kirim. Periksa Internet Anda!');
-                document.getElementById('btn').innerHTML = 'KIRIM LAPORAN SEKARANG';
-                document.getElementById('btn').disabled = false;
-            });
+            .then(res => { alert('Laporan Harian Berhasil Dikirim!'); location.reload(); })
+            .catch(err => alert('Gagal kirim, cek koneksi internet.'));
         });
     </script>
 </body>
